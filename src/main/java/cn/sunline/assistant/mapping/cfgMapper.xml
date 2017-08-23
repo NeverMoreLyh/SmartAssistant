@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.sunline.assistant.dao.ICfgDao">
+
+
+	<select id="selectAll_App_system" resultType="cn.sunline.assistant.bean.node.App_system">
+		select * from t_system
+	</select>
+	<select id="selectOne_App_system_byId" resultType="cn.sunline.assistant.bean.node.App_system" parameterType="string">
+		select * from t_system where id=#{id}
+	</select>
+	<insert id="save_App_system" parameterType="cn.sunline.assistant.bean.node.App_system">
+		insert into t_system values(#{id},#{name},#{remark})
+	</insert>
+	<update id="upd_App_system" parameterType="cn.sunline.assistant.bean.node.App_system">
+		update t_system set name=#{name},remark=#{remark} where id=#{id}
+	</update>
+	<delete id="del_App_system" parameterType="string">
+		delete from t_system where id=#{id}
+	</delete>
+	
+	<select id="selectAll_Common" resultType="cn.sunline.assistant.pojo.CommBeanswithsystem" parameterType="java.util.Map">
+		select a.*,b.name as sysname from ${tname} a,t_system b where a.sysid=b.id order by b.id
+	</select>
+	<select id="selectOne_Common_byId" resultType="cn.sunline.assistant.pojo.CommBeanswithsystem" parameterType="java.util.Map">
+		select a.*,b.name as sysname from ${tname} a,t_system b where a.sysid=b.id and a.id=#{id} order by b.id
+	</select>
+	<insert id="save_Common" parameterType="java.util.Map">
+		insert into ${tname} values(#{id},#{name},#{remark},#{sysid})
+	</insert>
+	<update id="upd_Common" parameterType="java.util.Map">
+		update ${tname} set name=#{name},remark=#{remark},sysid=#{sysid} where id=#{id}
+	</update>
+	<delete id="del_Common" parameterType="java.util.Map">
+		delete from ${tname} where id=#{id}
+	</delete>
+	
+	<select id="selectAll_machine" resultType="cn.sunline.assistant.bean.node.App_machine">
+		select * from t_machine
+	</select>
+	
+<!-- 	<resultMap id="CommBeans" type="com.tarena.entity.Role">
+		<id column="role_id" property="role_id" />
+		<collection ofType="com.tarena.entity.Module"
+			property="modules" javaType="java.util.ArrayList"
+			column="role_id" select="selectModules">
+		</collection>
+	</resultMap> -->
+	
+</mapper>  

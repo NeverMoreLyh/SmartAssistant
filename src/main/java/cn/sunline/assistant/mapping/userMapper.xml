@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.sunline.assistant.dao.IUserDao">
+
+	<insert id="addUser" parameterType="cn.sunline.assistant.bean.comm.User" useGeneratedKeys="true"
+		keyColumn="id">
+		insert into t_user(id,name,passwd,group,isVal)
+		values(${id},${name},${passwd},${group},${isVal})
+	</insert>
+
+	<update id="modUser" parameterType="cn.sunline.assistant.bean.comm.User">
+		update t_user set name=#{name},
+		passwd=${passwd},group=${group},isVal=${isVal} where id=#{id}
+	</update>
+
+	<select id="selUser" parameterType="string" resultType="cn.sunline.assistant.bean.comm.User">
+		select * from t_user where userId=#{id}
+	</select>
+
+	<delete id="delUser" parameterType="string">
+		delete from t_user where id=#{id}
+	</delete>
+	
+	<select id="showUsers" resultType="java.util.List">
+		select * from t_user
+	</select>
+</mapper>  

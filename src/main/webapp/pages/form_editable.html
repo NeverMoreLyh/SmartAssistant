@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.0
+Version: 1.5.2
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+   <meta charset="utf-8" />
+   <title>Metronic | Form Stuff - Form X-editable</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+   <meta content="" name="description" />
+   <meta content="" name="author" />
+   <meta name="MobileOptimized" content="320">
+   <!-- BEGIN GLOBAL MANDATORY STYLES -->          
+   <link href="../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+   <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+   <link href="../assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+   <!-- END GLOBAL MANDATORY STYLES -->
+   <!-- BEGIN PLUGINS USED BY X-EDITABLE -->
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/select2/select2_metro.css" />
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/bootstrap-datepicker/css/datepicker.css" />
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/bootstrap-timepicker/compiled/timepicker.css" />
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css" />
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css"/>
+   <link rel="stylesheet" type="text/css" href="../assets/plugins/bootstrap-editable/inputs-ext/address/address.css"/>
+   <!-- END PLUGINS USED BY X-EDITABLE -->
+   <!-- BEGIN THEME STYLES --> 
+   <link href="../assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+   <link href="../assets/css/style.css" rel="stylesheet" type="text/css"/>
+   <link href="../assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+   <link href="../assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+   <link href="../assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+   <link href="../assets/css/custom.css" rel="stylesheet" type="text/css"/>
+   <!-- END THEME STYLES -->
+   <link rel="shortcut icon" href="favicon.ico" />
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+   <!-- BEGIN HEADER -->   
+   <div class="header navbar navbar-inverse navbar-fixed-top">
+      <!-- BEGIN TOP NAVIGATION BAR -->
+      <div class="header-inner">
+         <!-- BEGIN LOGO -->  
+         <a class="navbar-brand" href="index.html">
+         <img src="../assets/img/logo.png" alt="logo" class="img-responsive" />
+         </a>
+         <!-- END LOGO -->
+         <!-- BEGIN RESPONSIVE MENU TOGGLER --> 
+         <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+         <img src="../assets/img/menu-toggler.png" alt="" />
+         </a> 
+         <!-- END RESPONSIVE MENU TOGGLER -->
+         <!-- BEGIN TOP NAVIGATION MENU -->
+         <ul class="nav navbar-nav pull-right">
+            
+            <li class="dropdown user">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+               <img alt="" src="../assets/img/avatar1_small.jpg"/>
+               <span class="username">admin</span>
+               <i class="icon-angle-down"></i>
+               </a>
+               <ul class="dropdown-menu">
+                  <li><a href="javascript:;" id="trigger_fullscreen"><i class="icon-move"></i> 全屏</a>
+                  </li>
+                  <li><a href="extra_lock.html"><i class="icon-lock"></i> 锁屏</a>
+                  </li>
+                  <li><a href="login.html"><i class="icon-key"></i> 退出</a>
+                  </li>
+               </ul>
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+         </ul>
+         <!-- END TOP NAVIGATION MENU -->
+      </div>
+      <!-- END TOP NAVIGATION BAR -->
+   </div>
+   <!-- END HEADER -->
+   <div class="clearfix"></div>
+   <!-- BEGIN CONTAINER -->
+   <div class="page-container">
+      <!-- BEGIN SIDEBAR -->
+      <div class="page-sidebar navbar-collapse collapse">
+         <!-- BEGIN SIDEBAR MENU -->        
+         <ul class="page-sidebar-menu">
+            <li>
+               <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+               <div class="sidebar-toggler hidden-phone"></div>
+               <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+            </li>
+            <li class="start ">
+               <a href="index.html">
+               <i class="icon-home"></i> 
+               <span class="title">首页</span>
+               </a>
+            </li>
+            <li class="">
+               <a href="javascript:;">
+               <i class="icon-cogs"></i> 
+               <span class="title">配置中心</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li >
+                     <a href="server_managed.html">
+                     	机器节点管理</a>
+                  </li>
+                  <li >
+                     <a href="table_managed.html">
+                     	任务步骤管理</a>
+                  </li>
+                   <li class="active">
+                     <a href="table_editable.html">
+                     	视图管理
+                     </a>
+                  </li>
+               </ul>
+            </li>
+            <li class="">
+               <a href="javascript:;">
+               <i class="icon-sitemap"></i> 
+               <span class="title">拓扑结构</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li >
+                     <a href="page_contact.html">
+                     	服务器节点</a>
+                  </li>
+               </ul>
+            </li>
+            <li class="">
+               <a href="javascript:;">
+               <i class="icon-key"></i> 
+               <span class="title">权限管理</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li >
+                     <a href="table_advanced.html">
+                     	用户管理</a>
+                  </li>
+                  <li >
+                     <a href="table_basic.html">
+                     	角色管理</a>
+                  </li>
+               </ul>
+            </li>
+            <li class="last ">
+               <a href="report_responsive.html">
+               <i class="icon-table"></i> 
+               <span class="title">报表</span>
+               </a>
+            </li>
+         </ul>
+         <!-- END SIDEBAR MENU -->
+      </div>
+      <!-- END SIDEBAR -->
+      <!-- BEGIN PAGE -->
+      <div class="page-content">
+         <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->               
+         <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                     <h4 class="modal-title">Modal title</h4>
+                  </div>
+                  <div class="modal-body">
+                     Widget settings form goes here
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn blue">Save changes</button>
+                     <button type="button" class="btn default" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+               <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+         </div>
+         <!-- /.modal -->
+         <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+         <!-- BEGIN STYLE CUSTOMIZER -->
+         <!-- END BEGIN STYLE CUSTOMIZER -->            
+         <!-- BEGIN PAGE HEADER-->
+         <div class="row">
+            <div class="col-md-12">
+               <ul class="page-breadcrumb breadcrumb">
+                  <li class="btn-group">
+                     <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                     <span>Actions</span> <i class="icon-angle-down"></i>
+                     </button>
+                     <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                     </ul>
+                  </li>
+                  <li>
+                     <i class="icon-home"></i>
+                     <a href="index.html">首页</a> 
+                     <i class="icon-angle-right"></i>
+                  </li>
+                  <li>
+                     <a href="#">Form Stuff</a>
+                     <i class="icon-angle-right"></i>
+                  </li>
+                  <li><a href="#">Form X-editable</a></li>
+               </ul>
+               <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+         </div>
+         <!-- END PAGE HEADER-->
+         <!-- BEGIN PAGE CONTENT-->
+         <div class="row">
+            <div class="col-md-12">
+               <label><input type="checkbox" id="autoopen">&nbsp;Auto-open next field</label>
+               <label><input type="checkbox" id="inline" >&nbsp;Inline editing</label>
+               <button id="enable" class="btn blue">Enable / Disable</button>
+               <hr>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <table id="user" class="table table-bordered table-striped">
+                  <tbody>
+                     <tr>
+                        <td style="width:15%">Username</td>
+                        <td style="width:50%"><a href="#" id="username" data-type="text" data-pk="1" data-original-title="Enter username">superuser</a></td>
+                        <td style="width:35%"><span class="text-muted">Simple text field</span></td>
+                     </tr>
+                     <tr>
+                        <td>First name</td>
+                        <td><a href="#" id="firstname" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-original-title="Enter your firstname"></a></td>
+                        <td><span class="text-muted">Required text field, originally empty</span></td>
+                     </tr>
+                     <tr>
+                        <td>Sex</td>
+                        <td><a href="#" id="sex" data-type="select" data-pk="1" data-value="" data-original-title="Select sex"></a></td>
+                        <td><span class="text-muted">Select, loaded from js array. Custom display</span></td>
+                     </tr>
+                     <tr>
+                        <td>Group</td>
+                        <td><a href="#" id="group" data-type="select" data-pk="1" data-value="5" data-source="/groups" data-original-title="Select group">Admin</a></td>
+                        <td><span class="text-muted">Select, loaded from server. <strong>No buttons</strong> mode</span></td>
+                     </tr>
+                     <tr>
+                        <td>Status</td>
+                        <td><a href="#" id="status" data-type="select" data-pk="1" data-value="0" data-source="/status" data-original-title="Select status">Active</a></td>
+                        <td><span class="text-muted">Error when loading list items</span></td>
+                     </tr>
+                     <tr>
+                        <td>Plan vacation?</td>
+                        <td><a href="#" id="vacation" data-type="date" data-viewformat="dd.mm.yyyy" data-pk="1" data-placement="right" data-original-title="When you want vacation to start?">25.02.2013</a></td>
+                        <td><span class="text-muted">Datepicker</span></td>
+                     </tr>
+                     <tr>
+                        <td>Date of birth</td>
+                        <td><a href="#" id="dob" data-type="combodate" data-value="1984-05-15" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-original-title="Select Date of birth"></a></td>
+                        <td><span class="text-muted">Date field (combodate)</span></td>
+                     </tr>
+                     <tr>
+                        <td>Setup event</td>
+                        <td><a href="#" id="event" data-type="combodate" data-template="D MMM YYYY  HH:mm" data-format="YYYY-MM-DD HH:mm" data-viewformat="MMM D, YYYY, HH:mm" data-pk="1"  data-original-title="Setup event date and time"></a></td>
+                        <td><span class="text-muted">Datetime field (combodate)</span></td>
+                     </tr>
+                     <tr>
+                        <td>Meeting start</td>
+                        <td><a href="#" id="meeting_start" data-type="datetime" data-pk="1" data-url="/post" data-placement="right" title="Set date & time">15/03/2013 12:45</a></td>
+                        <td><span class="text-muted">Bootstrap datetime</span></td>
+                     </tr>
+                     <tr>
+                        <td>Comments</td>
+                        <td><a href="#" id="comments" data-type="textarea" data-pk="1" data-placeholder="Your comments here..." data-original-title="Enter comments">awesome<br>user!</a></td>
+                        <td><span class="text-muted">Textarea. Buttons below. Submit by <i>ctrl+enter</i></span></td>
+                     </tr>
+                     <tr>
+                        <td>Type State</td>
+                        <td><a href="#" id="state" data-type="typeahead" data-pk="1" data-placement="right" data-original-title="Start typing State.."></a></td>
+                        <td><span class="text-muted">Bootstrap typeahead</span></td>
+                     </tr>
+                     <tr>
+                        <td>Fresh fruits</td>
+                        <td><a href="#" id="fruits" data-type="checklist" data-value="2,3" data-original-title="Select fruits"></a></td>
+                        <td><span class="text-muted">Checklist</span></td>
+                     </tr>
+                     <tr>
+                        <td>Tags</td>
+                        <td><a href="#" id="tags" data-type="select2" data-pk="1" data-original-title="Enter tags">html, javascript</a></td>
+                        <td><span class="text-muted">Select2 (tags mode)</span></td>
+                     </tr>
+                     <tr>
+                        <td>Country</td>
+                        <td><a href="#" id="country" data-type="select2" data-pk="1" data-value="BS" data-original-title="Select country"></a></td>
+                        <td><span class="text-muted">Select2 (dropdown mode)</span></td>
+                     </tr>
+                     <tr>
+                        <td>Address</td>
+                        <td><a href="#" id="address" data-type="address" data-pk="1" data-original-title="Please, fill address"></a></td>
+                        <td><span class="text-muted">Your custom input, several fields</span></td>
+                     </tr>
+                     <tr>
+                        <td>Notes</td>
+                        <td>
+                           <div id="note" data-pk="1" data-type="wysihtml5" data-toggle="manual" data-original-title="Enter notes">
+                              <h3>WYSIWYG</h3>
+                              WYSIWYG means <i>What You See Is What You Get</i>.<br>
+                              But may also refer to:
+                              <ul>
+                                 <li>WYSIWYG (album), a 2000 album by Chumbawamba</li>
+                                 <li>"Whatcha See is Whatcha Get", a 1971 song by The Dramatics</li>
+                                 <li>WYSIWYG Film Festival, an annual Christian film festival</li>
+                              </ul>
+                              <i>Source:</i> <a href="http://en.wikipedia.org/wiki/WYSIWYG_%28disambiguation%29">wikipedia.org</a> 
+                           </div>
+                        </td>
+                        <td><a href="#" id="pencil"><i class="icon-pencil"></i> [edit]</a><br><span class="text-muted">Wysihtml5 (bootstrap only).<br>Toggle by another element</span></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <h3>Console   <small>(all ajax requests here are emulated)</small></h3>
+               <div><textarea id="console" rows="8" style="width: 70%" class="form-control"></textarea></div>
+            </div>
+         </div>
+         <!-- END PAGE CONTENT-->
+      </div>
+      <!-- END PAGE --> 
+   </div>
+   <!-- END CONTAINER -->
+   <!-- BEGIN FOOTER -->
+   <div class="footer">
+      <div class="footer-inner">
+         
+      </div>
+      <div class="footer-tools">
+         <span class="go-top">
+         <i class="icon-angle-up"></i>
+         </span>
+      </div>
+   </div>
+   <!-- END FOOTER -->
+   <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+   <!-- BEGIN CORE PLUGINS -->   
+   <!--[if lt IE 9]>
+   <script src="../assets/plugins/respond.min.js"></script>
+   <script src="../assets/plugins/excanvas.min.js"></script> 
+   <![endif]-->   
+   <script src="../assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+   <script src="../assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script> 
+   <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>   
+   <script src="../assets/plugins/bootstrap/js/bootstrap2-typeahead.min.js" type="text/javascript"></script>
+   <script src="../assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript" ></script>
+   <script src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+   <script src="../assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>  
+   <script src="../assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
+   <script src="../assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript" ></script>
+   <!-- END CORE PLUGINS -->
+   <!-- BEGIN PAGE LEVEL PLUGINS -->
+   <!-- BEGIN PLUGINS USED BY X-EDITABLE -->
+   <script type="text/javascript" src="../assets/plugins/select2/select2.min.js"></script>
+   <script type="text/javascript" src="../assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script> 
+   <script type="text/javascript" src="../assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+   <script type="text/javascript" src="../assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+   <script type="text/javascript" src="../assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+   <script type="text/javascript" src="../assets/plugins/moment.min.js"></script>
+   <script type="text/javascript" src="../assets/plugins/jquery.mockjax.js"></script>
+   <script type="text/javascript" src="../assets/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+   <script type="text/javascript" src="../assets/plugins/bootstrap-editable/inputs-ext/address/address.js"></script>
+   <script type="text/javascript" src="../assets/plugins/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5.js"></script>   
+   <!-- END X-EDITABLE PLUGIN -->
+   <!-- BEGIN PAGE LEVEL SCRIPTS -->
+   <script src="../assets/scripts/app.js"></script>
+   <script src="../assets/scripts/form-editable.js"></script>
+   <script>
+      jQuery(document).ready(function() {
+      // initiate layout and plugins
+      App.init();
+      FormEditable.init();
+      });
+   </script>
+   <!-- END PAGE LEVEL SCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

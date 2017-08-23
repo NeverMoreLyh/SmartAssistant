@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.sunline.assistant.dao.IMenuDao">
+	<select id="selectAll" resultType="cn.sunline.assistant.bean.comm.Menu">
+		select * from t_menu
+	</select>
+	<select id="selectMenuById" parameterType="string"
+		resultType="cn.sunline.assistant.bean.comm.Menu">
+		select * from t_menu where menuId=#{menuid} and status='1'
+	</select>
+	<select id="selectMenusByPId" parameterType="string"
+		resultType="cn.sunline.assistant.bean.comm.Menu">
+		select * from t_menu where parentNode=#{pid} and status='1' order by xuhao
+	</select>
+	<select id="selectMenuByType" parameterType="string"
+		resultType="cn.sunline.assistant.bean.comm.Menu">
+		select * from t_menu where menutype=#{menutype} and status='1'
+	</select>
+</mapper>
