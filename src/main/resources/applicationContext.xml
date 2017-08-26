@@ -38,13 +38,13 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
       <property name="dataSource" ref="ds" />
       <property name="configLocation" value="classpath:mybatis-config.xml"></property>
-      <property name="mapperLocations" value="classpath:cn/sunline/deploy/mapping/**/*.xml"/>
+      <property name="mapperLocations" value="classpath:cn/sunline/assistant/mapping/**/*.xml"/>
     </bean>
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
        <property name="basePackage" value="cn.sunline.assistant.dao" />
        <property name="annotationClass" 
-           value="cn.sunline.assistant.annotation.DeployDao"/>
+           value="cn.sunline.assistant.annotation.AssistantDao"/>
 	</bean>
 
 	<context:component-scan base-package="cn.sunline.assistant" />

@@ -3,12 +3,12 @@ package cn.sunline.assistant.dao;
 import java.util.List;
 import java.util.Map;
 
-import cn.sunline.assistant.annotation.DeployDao;
+import cn.sunline.assistant.annotation.AssistantDao;
 import cn.sunline.assistant.bean.node.App_machine;
 import cn.sunline.assistant.bean.node.App_system;
 import cn.sunline.assistant.pojo.CommBeanswithsystem;
 
-@DeployDao
+@AssistantDao
 public interface ICfgDao {
 	List<App_system> selectAll_App_system();
 	App_system selectOne_App_system_byId(String id);
