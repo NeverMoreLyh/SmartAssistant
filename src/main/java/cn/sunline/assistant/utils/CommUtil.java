@@ -1,50 +1,45 @@
+/**
+ * 
+ */
 package cn.sunline.assistant.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
- * 公用工具函数
- * 
- * @author zms
- * 
+ * @author caiqq
+ *
  */
-public class CommUtil {
-
-	/**
-	 * 将任意JavaBean对象转换为Map。注意转换的Map可能不支持clear方法！
-	 * 
-	 * @param bean
-	 * @return
-	 */
-	public static Map<String, Object> toMap(Object bean) {
-		return CommUtil_.toMap(bean);
-	}
-
+public class CommUtil{
+	
+    public static Map<String, Object> toMap(Object bean) {
+        if (bean == null) return null;
+        if (bean instanceof Map) return (Map<String, Object>) bean;
+        throw new RuntimeException("类型[%s]不是Map类型不能转换"+bean.getClass().getName());
+    }
+    
+    public static String createGUID() {
+        return UUID.randomUUID().toString();
+    }
+	
 	/**
 	 * 将JavaBean的List转换为Map的List。注意转换的Map可能不支持clear方法！
-	 * 
 	 * @param list
 	 * @return
 	 */
 	public static List<Map<String, Object>> toListMap(List<?> list) {
-		return CommUtil_.toListMap(list);
-	}
-
-
-	/**
-	 * 获取属性的类型
-	 */
-	@SuppressWarnings("rawtypes")
-	public static Class getPropType(Class<?> clazz, String fieldName) {
-		Field field = FieldUtils.getField(clazz, fieldName);
-		if (field != null)
-			return field.getType();
-		return null;
+		if (list == null) return null;
+		List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
+		for (Object o : list) ret.add(toMap(o));
+		return ret;
 	}
 
 	/**
@@ -59,7 +54,7 @@ public class CommUtil {
 	 * @return true 对象为空; false 对象不为空
 	 */
 	public static <T> T nvl(T s, T defaultValue) {
-		return CommUtil_.nvl(s, defaultValue);
+		return isNull(s) ? defaultValue : s;
 	}
 
 	/**
@@ -72,7 +67,9 @@ public class CommUtil {
 	 * @return true 对象为空; false 对象不为空
 	 */
 	public static boolean isNull(Object o) {
-		return CommUtil_.isNull(o);
+		if (StringUtil.isEmpty(o))
+			return true;
+		return false;
 	}
 
 	/**
@@ -83,7 +80,7 @@ public class CommUtil {
 	 * @return true 对象不为空; false 对象为空
 	 */
 	public static boolean isNotNull(Object o) {
-		return CommUtil_.isNotNull(o);
+		return (!isNull(o));
 	}
 
 	/**
@@ -94,7 +91,7 @@ public class CommUtil {
 	 * @return 去除前后空格后的结果字符串; 若字符串全是空格或null的话，结果返回null
 	 */
 	public static String trim(String s) {
-		return CommUtil_.trim(s);
+		return (s == null) ? null : s.trim();
 	}
 
 	/**
@@ -105,7 +102,17 @@ public class CommUtil {
 	 * @return 去除右边空格后的结果字符串
 	 */
 	public static String rtrim(String s) {
-		return CommUtil_.rtrim(s);
+		if (s == null)
+			return null;
+		StringBuffer sb = new StringBuffer(s);
+		for (int i = sb.length() - 1; i >= 0; i--) {
+			if (sb.charAt(i) == ' ') {
+				sb.deleteCharAt(i);
+			} else {
+				break;
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -116,7 +123,18 @@ public class CommUtil {
 	 * @return 去除左边空格后的结果字符串
 	 */
 	public static String ltrim(String s) {
-		return CommUtil_.ltrim(s);
+		if (s == null)
+			return null;
+		String ret = "";
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == ' ') {
+				continue;
+			} else {
+				ret = s.substring(i);
+				break;
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -131,7 +149,28 @@ public class CommUtil {
      * @return 目标字符串
      */
     public static String lpad(String s, int i, String s1) {
-        return CommUtil_.lpad(s, i, s1);
+        if (s == null)
+            return null;
+        if (s1 == null || s1.length() <= 0)
+            throw new IllegalArgumentException("进行lpad的添加字符串不能为null且长度不能为0!");
+        if (i <= 0)
+            throw new IllegalArgumentException("进行lpad的长度无效!");
+        if (i <= s.length())
+            return s.substring(0, i);
+        else {
+            StringBuffer sb = new StringBuffer(s);
+            char[] c1 = s1.toCharArray();
+            int index = 0;
+            while (sb.length() < i) {
+                // 添加一遍s1后没达到指定长度继续重复添加s1
+                index = 0;
+                while (sb.length() < i && index < c1.length) {
+                    // 添加第index个字符时达到指定长度退出
+                    sb.insert(0, c1[index++]);
+                }
+            }
+            return sb.toString();
+        }
     }
 	
 	/**
@@ -143,12 +182,41 @@ public class CommUtil {
 	 *            添加后的长度
 	 * @param s1
 	 *            目标字符串
-	 * @param enCoding
-	 *            字符编码
 	 * @return 目标字符串
 	 */
-	public static String lpad(String s, int i, String s1 ,String enCoding) {
-		return CommUtil_.lpad(s, i, s1, enCoding);
+	public static String lpad(String s, int i, String s1, String enCoding) {
+		if (s == null)
+			return null;
+		if (s1 == null || s1.length() <= 0)
+			throw new IllegalArgumentException("进行lpad的添加字符串不能为null且长度不能为0!");
+		if (i <= 0)
+			throw new IllegalArgumentException("进行lpad的长度无效!");
+        try {
+            byte []pad = s1.getBytes(enCoding);
+            byte []by = s.getBytes(enCoding);
+            byte []des = new byte[i];
+            
+            int srcLen = by.length;
+            int padLen = pad.length;
+            
+            if (i <= srcLen){
+                System.arraycopy(by, 0, des, 0, i);
+                return new String(des, enCoding);
+            }else {
+                System.arraycopy(by, 0, des, i-srcLen, srcLen);
+                while (srcLen < i) {
+                    // 如果字符加源字段长度大于期望长度，则截取字符
+                    if((padLen + srcLen) > i)
+                        System.arraycopy(pad, 0, des, i-srcLen-padLen, 2*i-srcLen-padLen);
+                    else
+                        System.arraycopy(pad, 0, des, i-srcLen-padLen, padLen);
+                    srcLen += padLen;
+                }
+                return new String(des, enCoding);
+            }
+        }catch(UnsupportedEncodingException e){
+            throw new IllegalArgumentException("无效的编码值[" + enCoding + "]");
+        }
 	}
 
 	/**
@@ -163,7 +231,29 @@ public class CommUtil {
      * @return 结果字符串
      */
     public static String rpad(String s, int i, String s1) {
-        return CommUtil_.rpad(s, i, s1);
+        if (s == null)
+            return null;
+        if (s1 == null || s1.length() <= 0)
+            throw new IllegalArgumentException("进行Rpad的添加字符串不能为null且长度不能为0!");
+        if (i <= 0)
+            throw new IllegalArgumentException("进行Rpad的长度无效!");
+        if (i <= s.length())
+            return s.substring(0, i);
+        else {
+            StringBuffer sb = new StringBuffer(s);
+
+            char[] c1 = s1.toCharArray();
+            int index = 0;
+            while (sb.length() < i) {
+                // 添加一遍s1后没达到指定长度继续重复添加s1
+                index = 0;
+                while (sb.length() < i && index < c1.length) {
+                    // append第index个字符时达到指定长度退出
+                    sb.append(c1[index++]);
+                }
+            }
+            return sb.toString();
+        }
     }
 	
 	/**
@@ -175,12 +265,41 @@ public class CommUtil {
 	 *            添加后的长度
 	 * @param s1
 	 *            目标字符串
-     * @param enCoding
-     *            字符编码
 	 * @return 结果字符串
 	 */
 	public static String rpad(String s, int i, String s1, String enCoding) {
-		return CommUtil_.rpad(s, i, s1, enCoding);
+		if (s == null)
+			return null;
+		if (s1 == null || s1.length() <= 0)
+			throw new IllegalArgumentException("进行Rpad的添加字符串不能为null且长度不能为0!");
+		if (i <= 0)
+			throw new IllegalArgumentException("进行Rpad的长度无效!");
+	      try{
+	            byte []pad = s1.getBytes(enCoding);
+	            byte []by = s.getBytes(enCoding);
+	            byte []des = new byte[i];
+	            
+	            int srcLen = by.length;
+	            int padLen = pad.length;
+	            
+	            if (i <= by.length){
+	                System.arraycopy(by, 0, des, 0, i);
+	                return new String(des, enCoding);
+	            }else {
+	                System.arraycopy(by, 0, des, 0, srcLen);
+	                while (srcLen < i) {
+	                    // 如果字符加源字段长度大于期望长度，则截取字符
+	                    if((padLen + srcLen) > i)
+	                        System.arraycopy(pad, 0, des, srcLen, 2*i-srcLen-padLen);
+	                    else
+	                        System.arraycopy(pad, 0, des, srcLen, padLen);
+	                    srcLen += padLen;
+	                }
+	                return new String(des, enCoding);
+	            }
+	        }catch(UnsupportedEncodingException e){
+	            throw new IllegalArgumentException("无效的编码值[" + enCoding + "]");
+	        }
 	}
 
 	/**
@@ -193,34 +312,34 @@ public class CommUtil {
 	 * @return true-若源字符串匹配模式字符串；否则返回false
 	 */
 	public static boolean like(String s1, String s2) {
-		return CommUtil_.like(s1, s2);
-	}
+		if (s1 == null || s2 == null)
+			throw new IllegalArgumentException("like函数参数值无效!");
+		int len = s2.length();
+		boolean startWith = false;
+		boolean endWith = false;
 
-//	/**
-//	 * 判断一个值是否是枚举类型定义的常量
-//	 * 
-//	 * @param enumCls
-//	 *            枚举类型类
-//	 * @param value
-//	 *            目标值
-//	 * @return true 如果目标值是枚举类型定义的常量；否则返回false
-//	 */
-//	public static <T extends Enum<T>> boolean isInEnum(Class<T> enumCls, Object value) {
-//		return EnumUtils.isInEnum(enumCls, value);
-//	}
-//
-//	/**
-//	 * 将一个值转化为枚举类型对象
-//	 * 
-//	 * @param enumCls
-//	 *            枚举类型类
-//	 * @param value
-//	 *            目标值
-//	 * @return 枚举类型 注意：目标值需要与枚举类型里定义的某个常量相等才能完成转化，否则返回null
-//	 */
-//	public static <T extends Enum<T>> T toEnum(Class<T> enumCls, Object value) {
-//		return EnumUtils.toEnum(enumCls, value);
-//	}
+		if (s2.charAt(0) == '%')// 头有%
+			startWith = true;
+
+		// 检查模式字符串中间是否有%，若存在则抛出异常
+		int p = s2.indexOf('%', 1);
+		if (p > 0 && p < s2.length() - 1)
+			throw new IllegalArgumentException("like函数不支持中间匹配!");
+
+		// 尾有%
+		if (s2.charAt(len - 1) == '%')
+			endWith = true;
+
+		s2 = s2.replace("%", "");
+		if (startWith && endWith)
+			return s1.indexOf(s2) >= 0;
+		else if (startWith)
+			return s1.startsWith(s2);
+		else if (endWith)
+			return s1.endsWith(s2);
+		else
+			return s1.equals(s2);
+	}
 
 	/**
 	 * 判断一个值是否与后面所有值中的某个相等(类型必须相同)
@@ -235,16 +354,26 @@ public class CommUtil {
 	 * @return true 源对象在集合中存在；否则返回false
 	 */
 	public static boolean in(Object a, Object... a1) {
-		return CommUtil_.in(a, a1);
+		if (a == null)
+			return false;
+		if (a1 == null || a1.length <= 0)
+			throw new IllegalArgumentException("In函数参数值无效!");
+		for (int i = 0; i < a1.length; i++) {
+			if (!a.getClass().isAssignableFrom(a1[i].getClass()))
+				throw new IllegalArgumentException("In函数参数类型必须相同!");
+			if (compare(a, a1[i]) == 0)
+				return true;
+		}
+		return false;
 	}
 
 	/**
 	 * 判断对象是否在List中。
 	 */
 	public static <T> boolean in(T object, List<T> objects) {
-		return CommUtil_.in(object, objects);
+		return (objects.indexOf(object) >= 0);
 	}
-
+	
 	/**
 	 * 判断一个值是否在指定的两个值之间,注意：比较值的大小使用compare进行
 	 * 
@@ -253,132 +382,112 @@ public class CommUtil {
 	 * @param end
 	 * @return
 	 */
-	public static boolean Between(String a, String start, String end) {
-		return CommUtil_.Between(a, start, end);
+	public static boolean Between(Object a, Object start, Object end) {
+		if (a == null || start == null || end == null)
+			throw new IllegalArgumentException("Between函数参数值无效!");
+		if (!a.getClass().isAssignableFrom(start.getClass()) || !a.getClass().isAssignableFrom(end.getClass()))
+			throw new IllegalArgumentException("Between函数参数类型必须相同!");
+		if (compare(a, start) >= 0 && compare(a, end) <= 0)
+			return true;
+		else
+			return false;
 	}
+ 
 	
-	public static boolean Between(Integer a, int start, int end) {
-		return CommUtil_.Between(a, start, end);
-	}
-	public static boolean Between(int a, int start, int end) {
-		return CommUtil_.Between(a, start, end);
-	}
-	public static boolean Between(BigDecimal a, BigDecimal start, BigDecimal end) {
-		return CommUtil_.Between(a, start, end);
-	}
-
-    /**
-     * 比较两个对象大小
-     * 
-     * 如果是字符串比较，空字符串与null是相等的
-     *  
-     * 
-     * @param o1
-     *            源对象
-     * @param o2 目标对象
-     * @return 负数,0,正数 分别表示结果为小于，等于和大于
-     */
-	public static <T extends Comparable<T>> int compare(T o1, T o2) {
-		return CommUtil_.compare(o1, o2,false, true);
-	}
-
 	/**
 	 * 比较两个字符串大小(区分大小写)
 	 * 
-	 * @param o1
-	 *            源对象
-	 * @param o2
-	 *            目标对象
-	 * @return 负数,0,正数 分别表示结果为小于，等于和大于 </br>注：视空字符串与null是相等的
-	 */
-//	public static int compare(String o1, String o2) {
-//		return CommUtil_.compare(o1, o2, false, true);
-//	}
-
-	/**
-	 * 比较两个字符串大小(不区分大小写)
-	 * 
-	 * @param o1
-	 *            源对象
-	 * @param o2
-	 *            目标对象
-	 * @return 负数,0,正数 分别表示结果为小于，等于和大于 </br>注：视空字符串与null是相等的
-	 */
-	public static int compareIgnoreCase(String o1, String o2) {
-		return CommUtil_.compare(o1, o2, true, true);
-	}
-
-	/**
-	 * 比较两个字符串大小(区分大小写)
-	 * 
-	 * @param o1
-	 *            源对象
-	 * @param o2
-	 *            目标对象
-	 * @param ignoreCase
-	 *            是否忽略大小写 true-忽略 false-不忽略
-	 * @param ignoreNullAndEmpty
-	 *            是否视空字符串与null是相等的
+	 * @param o1 源对象
+	 * @param o2 目标对象
+	 * @param ignoreCase 是否忽略大小写 true-忽略 false-不忽略
+	 * @param ignoreNullAndEmpty 是否视空字符串与null是相等的
 	 * @return 负数,0,正数 分别表示结果为小于，等于和大于
 	 */
 //	public static int compare(String o1, String o2, boolean ignoreCase, boolean ignoreNullAndEmpty) {
-//		return CommUtil_.compare(o1, o2, ignoreCase, ignoreNullAndEmpty);
+//		if (o1 == null && o2 == null)
+//			return 0;
+//		if (o1 == null && o2 != null){
+//			if (ignoreNullAndEmpty && "".equals(o2)) {
+//				return 0;
+//			}
+//			return -1;
+//		}
+//		if (o1 != null && o2 == null) {
+//			if (ignoreNullAndEmpty && "".equals(o1)) {
+//				return 0;
+//			}
+//			return 1;
+//		}
+//		if (ignoreCase)
+//			return o1.compareToIgnoreCase(o2);
+//		else 
+//			return o1.compareTo(o2);
 //	}
+	
+	/**
+	 * 
+	 * @param o1 
+	 * @param o2
+	 * @param ignoreCase 针对字符串     忽略大小写比较
+	 * @param ignoreNullAndEmpty 针对字符串  是否忽略null与空字符串 比较
+	 * @return
+	 */
+	public static <T extends Comparable<? super T>>  int compare(T o1, T o2,boolean ignoreCase, boolean ignoreNullAndEmpty) {
+        if (o1 == o2)
+            return 0;
+        
+        if (o1 == null){
+            if (ignoreNullAndEmpty && String.class.isAssignableFrom(o2.getClass()) && "".equals(o2)) {
+                return 0;
+            }
+            return -1;
+        }
+        if (o2 == null) {
+            if (ignoreNullAndEmpty && String.class.isAssignableFrom(o1.getClass()) && "".equals(o1)) {
+                return 0;
+            }
+            return 1;
+        }
+        
+        if (ignoreCase && String.class.isAssignableFrom(o1.getClass()) && String.class.isAssignableFrom(o2.getClass())) {
+              return ((String)o1).compareToIgnoreCase((String)o2);
+        }
+        
+        if(o1 !=null  && o1.getClass().isEnum()){
+            o1=(T) String.valueOf(o1);
+        }
+        
+        if(o2 !=null  && o2.getClass().isEnum()){
+            o2=(T) String.valueOf(o2);
+        }
+        //这里存在类型不一致的风险，属运行期异常
+        return o1.compareTo(o2);
+	}
+	
 
 	/**
-	 * 判断两个BiDecimal对象是否相等
+	 * 任何对象的比较，跳过编译器检查
+	 * 
+	 * 但运行期会要求：比较的2个对象必须是Comparable
+	 * 
+	 * 
+	 * 默认忽略null与空字符串的比较
 	 * 
 	 * @param o1
 	 * @param o2
 	 * @return
 	 */
-	public static boolean equals(BigDecimal o1, BigDecimal o2) {
-		return CommUtil_.compare(o1, o2) == 0;
+	public static int compare(Object o1, Object o2) {
+		 if(o1!=null && !(o1 instanceof  Comparable<?>)){
+	            throw new RuntimeException(String.format("比较[%s]的类型[%s]必须是Comparable,否则无法进行比较", o1.toString(),o1.getClass().getName()));
+	        }
+	        if(o2!=null && !(o2 instanceof  Comparable<?>)){
+	            throw new RuntimeException(String.format("比较[%s]的类型[%s]必须是Comparable,否则无法进行比较", o2.toString(),o2.getClass().getName()));
+	        }
+	        return compare((Comparable)o1, (Comparable)o2,false, true);
 	}
-
-	/**
-	 * 判断两个字符串是否相等（不区分大小写）
-	 * 
-	 * @param o1
-	 *            字符串1
-	 * @param o2
-	 *            字符串2
-	 * @return </br>注：视空字符串与null是相等的
-	 */
-	public static boolean equals(String str1, String str2) {
-		return CommUtil_.compare(str1, str2, false, true) == 0;
-	}
-
-	/**
-	 * 判断两个字符串是否相等（区分大小写）
-	 * 
-	 * @param o1
-	 *            字符串1
-	 * @param o2
-	 *            字符串2
-	 * @return </br>注：视空字符串与null是相等的
-	 */
-	public static boolean equalsIgnoreCase(String str1, String str2) {
-		return CommUtil_.compare(str1, str2, true, true) == 0;
-	}
-
-	/**
-	 * 判断两个字符串是否相等
-	 * 
-	 * @param o1
-	 *            字符串1
-	 * @param o2
-	 *            字符串2
-	 * @param ignoreCase
-	 *            是否忽略大小写 true-忽略 false-不忽略
-	 * @param ignoreNullAndEmpty
-	 *            是否视空字符串与null是相等的
-	 * @return
-	 */
-	public static boolean equals(String str1, String str2, boolean ignoreCase,
-			boolean ignoreNullAndEmpty) {
-		return CommUtil_.compare(str1, str2, ignoreCase, ignoreNullAndEmpty) == 0;
-	}
+	
+	
 
 	/**
 	 * 金额小数点截除函数
@@ -388,7 +497,7 @@ public class CommUtil {
 	 * @return 处理后的金额
 	 */
 	public static BigDecimal trunc(BigDecimal am) {
-		return am == null ? null : Convert.toBigDecimal(am, (BigDecimal) null);
+		return am == null ? null : ConvertUtil.toBigDecimal(am, (BigDecimal) null);
 	}
 
 	/**
@@ -414,8 +523,12 @@ public class CommUtil {
 	 *            -BigDecimal.ROUND_CEILING,ROUND_FLOOR,...
 	 * @return
 	 */
-	private static BigDecimal round(BigDecimal amt, int scale, int roundingMode) {
-		return CommUtil_.round(amt, scale, roundingMode);
+	public static BigDecimal round(BigDecimal amt, int scale, int roundingMode) {
+		if (amt == null)
+			return null;
+		if (scale < 0)
+			throw new IllegalArgumentException("round精度不能为负数!");
+		return amt.setScale(scale, roundingMode);
 	}
 
 	/**
@@ -426,9 +539,17 @@ public class CommUtil {
 	 * @return 返回最大的值，该值小于等于参数，并等于某个整数。
 	 */
 	public static long floor(Object val) {
-		return CommUtil_.floor(val);
+		if (val == null)
+			throw new IllegalArgumentException("Floor参数不能为null!");
+		if (val instanceof BigDecimal)
+			return ((BigDecimal) val).longValue();
+		else if (val instanceof Double || val instanceof Float)
+			return new Double(Math.floor((Double) val)).longValue();
+		else if (val instanceof Long)
+			return (Long) val;
+		return 0;
 	}
-
+	
 	/**
 	 * 向上取整函数
 	 * 
@@ -437,136 +558,142 @@ public class CommUtil {
 	 * @return 返回最小的值，该值大于等于参数，并等于某个整数
 	 */
 	public static long ceil(Object val) {
-		return CommUtil_.ceil(val);
+		if (val == null)
+			throw new IllegalArgumentException("Ceil参数不能为null!");
+		if (val instanceof BigDecimal)
+			return round((BigDecimal) val, 0, BigDecimal.ROUND_CEILING).longValue();
+		else if (val instanceof Double || val instanceof Float)
+			return new Double(Math.ceil((Double) val)).longValue();
+		return 0;
+	}
+	
+	public static boolean equals(Object o1, Object o2) {
+		return compare(o1, o2) == 0;
+	}
+	
+	public static Map<String, Object> shrinkHttpParameters(Map<String, String[]> parameters) {
+		boolean decode = parameters.containsKey("q:");
+		Map<String, Object> ret = new HashMap<String, Object>();
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			String[] value = entry.getValue();
+			String[] val = value;
+			if (val.length == 1) 
+				ret.put(entry.getKey(), convertHtmlParameter(val[0], decode));
+			else {
+				List<String> values = new ArrayList<String>();
+				for (String v : val) 
+					if (!StringUtil.isEmpty(v)) 
+						values.add(convertHtmlParameter(v, decode));
+				ret.put(entry.getKey(), values.toArray(new String[values.size()]));
+			}
+		}
+		return ret;
+	}
+	
+	private static String convertHtmlParameter(String p, boolean decode) {
+		if (decode) try {
+			p = new String(p.getBytes("ISO8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+		// 防止跨站攻击
+		if (StringUtil.isNotEmpty(p)) p = p.replaceAll("(?im)<([\\s/]*(script|iframe|img))", "&lt;$1");
+		return p;
+	}
+	
+    /**
+     * 比较两个对象大小
+     * 
+     * 如果是字符串比较，空字符串与null是相等的
+     *  
+     * 
+     * @param o1
+     *            源对象
+     * @param o2 目标对象
+     * @return 负数,0,正数 分别表示结果为小于，等于和大于
+     */
+	public static <T extends Comparable<T>> int compare(T o1, T o2) {
+		return CommUtil.compare(o1, o2,false, true);
 	}
 
 	/**
-	 * 数据的加减乘除
+	 * 比较两个字符串大小(不区分大小写)
 	 * 
-	 * @param data1
-	 *            和 data2 支持类型为 int ,Integer,long Long,BigDecimal
+	 * @param o1
+	 *            源对象
+	 * @param o2
+	 *            目标对象
+	 * @return 负数,0,正数 分别表示结果为小于，等于和大于 </br>注：视空字符串与null是相等的
 	 */
-
-	public static enum Operator {
-		/**
-		 * add - 加
-		 * 
-		 */
-		add("add", "add", "加"){
-			@Override
-			public Object add(Object data1, Object data2) {
-				if (data1.getClass() == Integer.class && data2.getClass() == Integer.class) {
-					Integer l1 = (Integer) data1;
-					Integer l2 = (Integer) data2;
-					return new Integer(l1.intValue() + l2.intValue());
-				}
-				if (data1.getClass() == Long.class && data2.getClass() == Long.class) {
-					Long l1 = (Long) data1;
-					Long l2 = (Long) data2;
-					return new Long(l1.longValue() + l2.longValue());
-				}
-				if (data1.getClass() == BigDecimal.class && data2.getClass() == BigDecimal.class) {
-					BigDecimal l1 = (BigDecimal) data1;
-					BigDecimal l2 = (BigDecimal) data2;
-					return l1.add(l2);
-				}
-				return null;
-			}
-		},
-		/**
-		 * sub - 减
-		 * 
-		 */
-		sub("sub", "sub", "减"){
-			@Override
-			public Object sub(Object data1, Object data2) {
-				if (data1.getClass() == Integer.class && data2.getClass() == Integer.class) {
-					Integer l1 = (Integer) data1;
-					Integer l2 = (Integer) data2;
-					return new Integer(l1.intValue() - l2.intValue());
-				}
-				if (data1.getClass() == Long.class && data2.getClass() == Long.class) {
-					Long l1 = (Long) data1;
-					Long l2 = (Long) data2;
-					return new Long(l1.longValue() - l2.longValue());
-				}
-				if (data1.getClass() == BigDecimal.class && data2.getClass() == BigDecimal.class) {
-					BigDecimal l1 = (BigDecimal) data1;
-					BigDecimal l2 = (BigDecimal) data2;
-					return l1.subtract(l2);
-				}
-				return null;
-			}
-		},
-		/**
-		 * mul - 乘
-		 * 
-		 */
-		mul("mul", "mul", "乘"){
-			@Override
-			public Object mul(Object data1, Object data2) {
-				if (data1.getClass() == Integer.class && data2.getClass() == Integer.class) {
-					Integer l1 = (Integer) data1;
-					Integer l2 = (Integer) data2;
-					return new Integer(l1.intValue() * l2.intValue());
-				}
-				if (data1.getClass() == Long.class && data2.getClass() == Long.class) {
-					Long l1 = (Long) data1;
-					Long l2 = (Long) data2;
-					return new Long(l1.longValue() * l2.longValue());
-				}
-				if (data1.getClass() == BigDecimal.class && data2.getClass() == BigDecimal.class) {
-					BigDecimal l1 = (BigDecimal) data1;
-					BigDecimal l2 = (BigDecimal) data2;
-					return l1.multiply(l2);
-				}
-				return null;
-			}
-		},
-		/**
-		 * div - 除
-		 * 
-		 */
-		div("div", "div", "除"){
-			@Override
-			public Object div(Object data1, Object data2) {
-				if (data1.getClass() == Integer.class && data2.getClass() == Integer.class) {
-					Integer l1 = (Integer) data1;
-					Integer l2 = (Integer) data2;
-					return new Integer(l1.intValue()/l2.intValue());
-				}
-				if (data1.getClass() == Long.class && data2.getClass() == Long.class) {
-					Long l1 = (Long) data1;
-					Long l2 = (Long) data2;
-					return new Long(l1.longValue() / l2.longValue());
-				}
-				if (data1.getClass() == BigDecimal.class && data2.getClass() == BigDecimal.class) {
-					BigDecimal l1 = (BigDecimal) data1;
-					BigDecimal l2 = (BigDecimal) data2;
-					return l1.divide(l2);
-				}
-				return null;
-			}
-		};
-		private String id;
-		private String value;
-		private String longName;
-		private Operator(String id, String value, String longName) {
-			this.id = id;
-			this.value = value;
-			this.longName = longName;
-		}
-		public Object add(Object data1, Object data2) {
-			 return null;
-		 }
-		public Object sub(Object data1, Object data2)  {
-			 return null;
-		 }
-		public Object mul(Object data1, Object data2)  {
-			 return null;
-		 }
-		public Object div(Object data1, Object data2)  {
-			 return null;
-		 }
+	public static int compareIgnoreCase(String o1, String o2) {
+		return CommUtil.compare(o1, o2, true, true);
 	}
+
+	/**
+	 * 判断两个BiDecimal对象是否相等
+	 * 
+	 * @param o1
+	 * @param o2
+	 * @return
+	 */
+	public static boolean equals(BigDecimal o1, BigDecimal o2) {
+		return CommUtil.compare(o1, o2) == 0;
+	}
+
+	/**
+	 * 判断两个字符串是否相等（不区分大小写）
+	 * 
+	 * @param o1
+	 *            字符串1
+	 * @param o2
+	 *            字符串2
+	 * @return </br>注：视空字符串与null是相等的
+	 */
+	public static boolean equals(String str1, String str2) {
+		return CommUtil.compare(str1, str2, false, true) == 0;
+	}
+
+	/**
+	 * 判断两个字符串是否相等（区分大小写）
+	 * 
+	 * @param o1
+	 *            字符串1
+	 * @param o2
+	 *            字符串2
+	 * @return </br>注：视空字符串与null是相等的
+	 */
+	public static boolean equalsIgnoreCase(String str1, String str2) {
+		return CommUtil.compare(str1, str2, true, true) == 0;
+	}
+
+	/**
+	 * 判断两个字符串是否相等
+	 * 
+	 * @param o1
+	 *            字符串1
+	 * @param o2
+	 *            字符串2
+	 * @param ignoreCase
+	 *            是否忽略大小写 true-忽略 false-不忽略
+	 * @param ignoreNullAndEmpty
+	 *            是否视空字符串与null是相等的
+	 * @return
+	 */
+	public static boolean equals(String str1, String str2, boolean ignoreCase,
+			boolean ignoreNullAndEmpty) {
+		return CommUtil.compare(str1, str2, ignoreCase, ignoreNullAndEmpty) == 0;
+	}
+	
+	/**
+	 * 获取属性的类型
+	 */
+	@SuppressWarnings("rawtypes")
+	public static Class getPropType(Class<?> clazz, String fieldName) {
+		Field field = FieldUtils.getField(clazz, fieldName);
+		if (field != null)
+			return field.getType();
+		return null;
+	}
+
+	
 }

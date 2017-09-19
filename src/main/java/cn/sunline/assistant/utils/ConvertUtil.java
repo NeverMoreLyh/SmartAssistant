@@ -21,7 +21,7 @@ import java.util.Locale;
  * @author liangbl
  * 
  */
-public class Convert {
+public class ConvertUtil {
 	/** Constant for the prefix of hex numbers. */
 	private static final String HEX_PREFIX = "0x";
 

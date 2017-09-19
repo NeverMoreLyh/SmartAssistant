@@ -271,11 +271,11 @@ public class DateUtil {
 	}
 
 	public static int getDayCount(String _startDate, String sdf, String _endDate, String edf) {
-		return getDayCount(Convert.toDate(_startDate, sdf), Convert.toDate(_endDate, edf));
+		return getDayCount(ConvertUtil.toDate(_startDate, sdf), ConvertUtil.toDate(_endDate, edf));
 	}
 
 	public static int getDayCount(String _startDate, String _endDate) {
-		return getDayCount(Convert.toDate(_startDate), Convert.toDate(_endDate));
+		return getDayCount(ConvertUtil.toDate(_startDate), ConvertUtil.toDate(_endDate));
 	}
 
 	/**
@@ -564,7 +564,7 @@ public class DateUtil {
 				return thedate.substring(0, 4) + "0101";
 			}
 		}
-		java.util.Date tdate = Convert.toDate(thedate, pattern);
+		java.util.Date tdate = ConvertUtil.toDate(thedate, pattern);
 		tdate = getPeriodEnd(tdate, period);
 		return formatDate(tdate, pattern);
 	}
@@ -685,7 +685,7 @@ public class DateUtil {
 				return thedate.substring(0, 4) + "0101";
 			}
 		}
-		java.util.Date tdate = Convert.toDate(thedate, pattern);
+		java.util.Date tdate = ConvertUtil.toDate(thedate, pattern);
 		tdate = getPeriodBegin(tdate, period);
 		return formatDate(tdate, pattern);
 	}
@@ -760,15 +760,15 @@ public class DateUtil {
 	}
 
 	public static int compareDate(final String date1, String d1df, final String date2, String d2df, int precision) {
-		return compareDate(Convert.toDate(date1, d1df), Convert.toDate(date2, d2df), precision);
+		return compareDate(ConvertUtil.toDate(date1, d1df), ConvertUtil.toDate(date2, d2df), precision);
 	}
 
 	public static int compareDate(final String date1, final String date2, int precision) {
-		return compareDate(Convert.toDate(date1), Convert.toDate(date2), precision);
+		return compareDate(ConvertUtil.toDate(date1), ConvertUtil.toDate(date2), precision);
 	}
 
 	public static int compareDate(final String date1, final String date2) {
-		return compareDate(Convert.toDate(date1), Convert.toDate(date2), 0);
+		return compareDate(ConvertUtil.toDate(date1), ConvertUtil.toDate(date2), 0);
 	}
 
 	public static Calendar convertTimeZone(Calendar cal, String zone) {
@@ -798,11 +798,11 @@ public class DateUtil {
 	}
 
 	public static String dateAdd(int precision, int amount, String d1, String format) {
-		return formatDate(dateAdd(precision, amount, Convert.toDate(d1, format)), format);
+		return formatDate(dateAdd(precision, amount, ConvertUtil.toDate(d1, format)), format);
 	}
 
 	public static String dateAdd(int precision, int amount, String d1) {
-		return formatDate(dateAdd(precision, amount, Convert.toDate(d1)));
+		return formatDate(dateAdd(precision, amount, ConvertUtil.toDate(d1)));
 	}
 	
 	/**

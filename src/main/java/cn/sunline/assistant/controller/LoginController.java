@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.sunline.assistant.bean.comm.User;
 import cn.sunline.assistant.service.IUserService;
-import cn.sunline.assistant.utils.EncUtils;
+import cn.sunline.assistant.utils.EncUtil;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
@@ -29,7 +29,7 @@ public class LoginController {
 		User user = userservice.selUser(username);
 		if(user != null){
 			String dbpass = user.getUserPasswd();
-			if(dbpass.equals(EncUtils.decData(password))){
+			if(dbpass.equals(EncUtil.decData(password))){
 				//TODO  权限设置
 				session.setAttribute("loginuser", user);
 				url="redirect:tomain.do?menuid=001";

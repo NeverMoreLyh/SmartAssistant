@@ -1,6 +1,6 @@
 package cn.sunline.assistant.utils;
 
-public class EncUtils {
+public class EncUtil {
 	
 	/**
 	 * 解密
